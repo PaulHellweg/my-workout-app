@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">myWorkoutApp</string>
+    <string name="title_activity_main">myWorkoutApp</string>
+    <string name="package_name">com.meinname.myworkoutapp</string>
+    <string name="custom_url_scheme">com.meinname.myworkoutapp</string>
+</resources>
