@@ -42,7 +42,6 @@ const App: React.FC = () => {
     },
   });
 
-  // Globale Zustände über die Hooks
   const { exercises, addExercise, updateExercise, deleteExercise } =
     useExerciseManager();
   const {
@@ -114,7 +113,6 @@ const App: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Drawer (Burger-Menü) */}
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250 }} role="presentation">
           <List>
