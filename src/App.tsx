@@ -1,130 +1,190 @@
 import React, { useState } from 'react';
-import { Exercise, Workout, WorkoutExercise } from './types';
-
-const initialExercises: Exercise[] = [
-  { id: '1', name: 'Bankdrücken', description: 'Brustübung' },
-  { id: '2', name: 'Kniebeugen', description: 'Beinübung' }
-];
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  CssBaseline,
+  Container,
+  Box,
+  Button,
+  Switch,
+  ListItemButton,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
+import ExerciseList from './components/ExerciseList';
+import WorkoutList from './components/WorkoutList';
+import CurrentWorkoutView from './components/CurrentWorkoutView';
+import HistoryView from './components/HistoryView';
+import HomeView from './components/HomeView';
+import { useExerciseManager } from './hooks/useExerciseManager';
+import { useWorkoutManager } from './hooks/useWorkoutManager';
+import { useCurrentWorkout } from './hooks/useCurrentWorkout';
+import { CompletedWorkout, Workout } from './types';
 
 const App: React.FC = () => {
-  const [exercises, setExercises] = useState<Exercise[]>(initialExercises);
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
-  const [workoutName, setWorkoutName] = useState('');
-  const [selectedExerciseId, setSelectedExerciseId] = useState('');
-  const [repetitions, setRepetitions] = useState<number>(0);
-  const [weight, setWeight] = useState<number>(0);
-  const [exerciseName, setExerciseName] = useState('')
-  const [exerciseDescription, setExerciseDescription] = useState('')
+  const { t, i18n } = useTranslation();
+  const [darkMode, setDarkMode] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedView, setSelectedView] = useState<
+    'home' | 'exercises' | 'workouts' | 'current' | 'history'
+  >('home');
 
-  const addWorkout = () => {
-    if (!workoutName) return;
-    const newWorkout: Workout = {
-      id: Date.now().toString(),
-      name: workoutName,
-      date: new Date().toISOString(),
-      exercises: []
-    };
-    setWorkouts([...workouts, newWorkout]);
-    setWorkoutName('');
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+    },
+  });
+
+  // Globale Zustände über die Hooks
+  const { exercises, addExercise, updateExercise, deleteExercise } =
+    useExerciseManager();
+  const {
+    workouts,
+    addWorkout,
+    updateWorkout,
+    deleteWorkout,
+    addExerciseToWorkout,
+  } = useWorkoutManager(exercises);
+  const { currentWorkout, toggleSetCompletion, finishWorkout, startWorkout } =
+    useCurrentWorkout();
+  const [completedWorkouts, setCompletedWorkouts] = useState<
+    CompletedWorkout[]
+  >([]);
+
+  const lastWorkoutDate = completedWorkouts.length
+    ? completedWorkouts[completedWorkouts.length - 1].completedAt
+    : undefined;
+
+  // Navigation im Drawer
+  const handleMenuItemClick = (
+    view: 'home' | 'exercises' | 'workouts' | 'current' | 'history'
+  ) => {
+    setSelectedView(view);
+    setDrawerOpen(false);
   };
 
-  const addExercise = (exercise: Exercise) => {
-    let newExercises = exercises
+  // Startet ein Workout und wechselt in den Current-Workout-View
+  const handleStartWorkout = (workout: Workout) => {
+    startWorkout(workout);
+    setSelectedView('current');
+  };
 
-  }
-
-  const addExerciseToWorkout = (workoutId: string) => {
-    if (!selectedExerciseId) return;
-    const updatedWorkouts = workouts.map(workout => {
-      if (workout.id === workoutId) {
-        const newWorkoutExercise: WorkoutExercise = {
-          exerciseId: selectedExerciseId,
-          sets: [{ repetitions, weight }]
-        };
-        return { ...workout, exercises: [...workout.exercises, newWorkoutExercise] };
-      }
-      return workout;
-    });
-    setWorkouts(updatedWorkouts);
-    setSelectedExerciseId('');
-    setRepetitions(0);
-    setWeight(0);
+  // Integrierte Logik: Beendet das aktuelle Workout, fügt es den Completed Workouts hinzu und wechselt zur History
+  const handleFinishCurrentWorkout = () => {
+    if (!currentWorkout) return;
+    // Erstelle ein CompletedWorkout, indem du den currentWorkout kopierst und den Abschlusszeitpunkt setzt
+    const finishedWorkout: CompletedWorkout = {
+      ...currentWorkout,
+      completedAt: new Date().toISOString(),
+    };
+    setCompletedWorkouts([...completedWorkouts, finishedWorkout]);
+    finishWorkout(); // Löscht den currentWorkout
+    setSelectedView('history'); // Wechsel zur History-Ansicht
   };
 
   return (
-    <div style={{ padding: '20px' }}> 
-      <h1>My Workout App</h1>
-      <section>
-        <h2>Workout erstellen</h2>
-        <input 
-          type="text" 
-          placeholder="Workout Name" 
-          value={workoutName}
-          onChange={(e) => setWorkoutName(e.target.value)}
-        />
-        <button onClick={addWorkout}>Workout hinzufügen</button>
-      </section>
-      <section>
-        <h2>
-          Exercise erstellen
-        </h2>
-        <input type="text"
-          placeholder='Exercise name'
-          value={exerciseName}
-          onChange={(e) => setExerciseName(e.target.value)} />
-           <button onClick={addWorkout}>Exercise hinzufügen</button>
-      </section>
-      <section>
-        <h2>Workouts</h2>
-        {workouts.map((workout) => (
-          <div key={workout.id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-            <h3>{workout.name}</h3>
-            <p>{new Date(workout.date).toLocaleString()}</p>
-            <div>
-              <h4>Übung hinzufügen</h4>
-              <select 
-                value={selectedExerciseId} 
-                onChange={(e) => setSelectedExerciseId(e.target.value)}
-              >
-                <option value="">Übung auswählen</option>
-                {exercises.map((exercise) => (
-                  <option key={exercise.id} value={exercise.id}>{exercise.name}</option>
-                ))}
-              </select>
-              <input 
-                type="number" 
-                placeholder="Wiederholungen" 
-                value={repetitions}
-                onChange={(e) => setRepetitions(parseInt(e.target.value))}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={() => setDrawerOpen(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" style={{ flexGrow: 1 }}>
+            {t('welcome')}
+          </Typography>
+          <Switch
+            checked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+            color="default"
+          />
+          <Button color="inherit" onClick={() => i18n.changeLanguage('en')}>
+            EN
+          </Button>
+          <Button color="inherit" onClick={() => i18n.changeLanguage('de')}>
+            DE
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      {/* Drawer (Burger-Menü) */}
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box sx={{ width: 250 }} role="presentation">
+          <List>
+            <ListItem>
+              <ListItemText primary={t('menu') || 'Menu'} />
+            </ListItem>
+            <ListItemButton onClick={() => handleMenuItemClick('home')}>
+              <ListItemText primary={t('home') || 'Home'} />
+            </ListItemButton>
+            <ListItemButton onClick={() => handleMenuItemClick('exercises')}>
+              <ListItemText primary={t('exercises') || 'Exercises'} />
+            </ListItemButton>
+            <ListItemButton onClick={() => handleMenuItemClick('workouts')}>
+              <ListItemText primary={t('workouts') || 'Workouts'} />
+            </ListItemButton>
+            <ListItemButton onClick={() => handleMenuItemClick('current')}>
+              <ListItemText
+                primary={t('current_workout') || 'Current Workout'}
               />
-              <input 
-                type="number" 
-                placeholder="Gewicht" 
-                value={weight}
-                onChange={(e) => setWeight(parseFloat(e.target.value))}
-              />
-              <button onClick={() => addExerciseToWorkout(workout.id)}>Übung hinzufügen</button>
-            </div>
-            <div>
-              <h4>Übungen im Workout:</h4>
-              <ul>
-                {workout.exercises.map((we, index) => {
-                  const exercise = exercises.find(e => e.id === we.exerciseId);
-                  return (
-                    <li key={index}>
-                      {exercise ? exercise.name : 'Unbekannte Übung'} - 
-                      {we.sets.map((set, i) => (
-                        <span key={i}> Set {i + 1}: {set.repetitions} Wiederholungen bei {set.weight}kg; </span>
-                      ))}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        ))}
-      </section>
-    </div>
+            </ListItemButton>
+            <ListItemButton onClick={() => handleMenuItemClick('history')}>
+              <ListItemText primary={t('history') || 'History'} />
+            </ListItemButton>
+          </List>
+        </Box>
+      </Drawer>
+
+      <Container maxWidth="md" style={{ padding: '20px' }}>
+        {selectedView === 'home' && (
+          <HomeView
+            totalExercises={exercises.length}
+            totalWorkouts={workouts.length}
+            lastWorkoutDate={lastWorkoutDate}
+          />
+        )}
+        {selectedView === 'exercises' && (
+          <ExerciseList
+            exercises={exercises}
+            addExercise={addExercise}
+            updateExercise={updateExercise}
+            deleteExercise={deleteExercise}
+          />
+        )}
+        {selectedView === 'workouts' && (
+          <WorkoutList
+            workouts={workouts}
+            addWorkout={addWorkout}
+            updateWorkout={updateWorkout}
+            deleteWorkout={deleteWorkout}
+            startWorkout={handleStartWorkout}
+            addExerciseToWorkout={addExerciseToWorkout}
+            globalExercises={exercises}
+          />
+        )}
+        {selectedView === 'current' && (
+          <CurrentWorkoutView
+            currentWorkout={currentWorkout}
+            toggleSetCompletion={toggleSetCompletion}
+            finishWorkout={handleFinishCurrentWorkout}
+          />
+        )}
+        {selectedView === 'history' && (
+          <HistoryView completedWorkouts={completedWorkouts} />
+        )}
+      </Container>
+    </ThemeProvider>
   );
 };
 

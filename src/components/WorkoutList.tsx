@@ -1,0 +1,145 @@
+// src/components/WorkoutList.tsx
+import React, { useState } from 'react';
+import { Workout, WorkoutExercise, Exercise } from '../types';
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  IconButton,
+  Paper,
+} from '@mui/material';
+import { Edit, Delete, Save, Cancel } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
+import AddExerciseToWorkoutForm from './AddExerciseToWorkoutForm';
+
+interface WorkoutListProps {
+  workouts: Workout[];
+  addWorkout: (workoutName: string) => Promise<void>;
+  updateWorkout: (workoutId: string, newName: string) => Promise<void>;
+  deleteWorkout: (workoutId: string) => Promise<void>;
+  startWorkout: (workout: Workout) => void;
+  addExerciseToWorkout: (
+    workoutId: string,
+    workoutExercise: WorkoutExercise
+  ) => Promise<void>;
+  globalExercises: Exercise[]; // Hinzugefügt: globaler Exercise-State
+}
+
+const WorkoutList: React.FC<WorkoutListProps> = ({
+  workouts,
+  addWorkout,
+  updateWorkout,
+  deleteWorkout,
+  startWorkout,
+  addExerciseToWorkout,
+  globalExercises,
+}) => {
+  const { t } = useTranslation();
+  const [newWorkoutName, setNewWorkoutName] = useState('');
+  const [editingWorkoutId, setEditingWorkoutId] = useState<string | null>(null);
+  const [editedWorkoutName, setEditedWorkoutName] = useState('');
+
+  const handleAddWorkout = async () => {
+    if (newWorkoutName.trim() === '') return;
+    await addWorkout(newWorkoutName);
+    setNewWorkoutName('');
+  };
+
+  const handleSaveEdit = async (workoutId: string) => {
+    await updateWorkout(workoutId, editedWorkoutName);
+    setEditingWorkoutId(null);
+    setEditedWorkoutName('');
+  };
+
+  return (
+    <Box>
+      <Typography variant="h6">{t('workouts') || 'Workouts'}</Typography>
+      <Box display="flex" alignItems="center" marginBottom={2}>
+        <TextField
+          label={t('workout_name_placeholder') || 'Workout Name'}
+          value={newWorkoutName}
+          onChange={(e) => setNewWorkoutName(e.target.value)}
+          fullWidth
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleAddWorkout}
+          style={{ marginLeft: 8 }}
+        >
+          {t('add_workout') || 'Workout hinzufügen'}
+        </Button>
+      </Box>
+      {workouts.map((workout) => (
+        <Paper
+          key={workout.id}
+          style={{ padding: '10px', marginBottom: '10px' }}
+        >
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            {editingWorkoutId === workout.id ? (
+              <>
+                <TextField
+                  value={editedWorkoutName}
+                  onChange={(e) => setEditedWorkoutName(e.target.value)}
+                  margin="dense"
+                />
+                <IconButton onClick={() => handleSaveEdit(workout.id)}>
+                  <Save />
+                </IconButton>
+                <IconButton onClick={() => setEditingWorkoutId(null)}>
+                  <Cancel />
+                </IconButton>
+              </>
+            ) : (
+              <>
+                <Typography variant="h6">{workout.name}</Typography>
+                <Box>
+                  <Button
+                    onClick={() => startWorkout(workout)}
+                    variant="outlined"
+                    size="small"
+                  >
+                    {t('start_workout') || 'Workout starten'}
+                  </Button>
+                  <IconButton
+                    onClick={() => {
+                      setEditingWorkoutId(workout.id);
+                      setEditedWorkoutName(workout.name);
+                    }}
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton onClick={() => deleteWorkout(workout.id)}>
+                    <Delete />
+                  </IconButton>
+                </Box>
+              </>
+            )}
+          </Box>
+          <Typography variant="body2">
+            {new Date(workout.date).toLocaleString()}
+          </Typography>
+          <Box marginTop={2}>
+            <AddExerciseToWorkoutForm
+              exercises={globalExercises} // Hier den globalen Exercise-State übergeben
+              onAdd={(selectedExerciseId, reps, weight) => {
+                const newWorkoutExercise = {
+                  exerciseId: selectedExerciseId,
+                  sets: [{ repetitions: reps, weight: weight }],
+                };
+                return addExerciseToWorkout(workout.id, newWorkoutExercise);
+              }}
+            />
+          </Box>
+        </Paper>
+      ))}
+    </Box>
+  );
+};
+
+export default WorkoutList;
