@@ -5,7 +5,6 @@ import { loadAppData, saveAppData } from '../dataManager';
 export const useWorkoutManager = (exercises: Exercise[]) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
 
-  // Lädt Workouts beim Initialisieren
   useEffect(() => {
     (async () => {
       const storedData: AppData | null = await loadAppData();
@@ -15,7 +14,6 @@ export const useWorkoutManager = (exercises: Exercise[]) => {
     })();
   }, []);
 
-  // Persistiere Workouts (und verwende die übergebenen Exercises)
   const persistWorkouts = async (newWorkouts: Workout[]) => {
     setWorkouts(newWorkouts);
     await saveAppData({ exercises, workouts: newWorkouts });
@@ -63,6 +61,6 @@ export const useWorkoutManager = (exercises: Exercise[]) => {
     updateWorkout,
     deleteWorkout,
     addExerciseToWorkout,
-    setWorkouts, // Für direkte State-Anpassungen, falls nötig
+    setWorkouts,
   };
 };

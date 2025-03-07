@@ -1,9 +1,7 @@
-// src/hooks/useCurrentWorkout.ts
 import { useState } from 'react';
 import { Workout, WorkoutExercise } from '../types';
 
 interface CurrentWorkout extends Workout {
-  // Wir erweitern die Sets um ein "completed" Flag
   exercises: {
     exerciseId: string;
     sets: (WorkoutExercise['sets'][number] & { completed?: boolean })[];
@@ -39,9 +37,7 @@ export const useCurrentWorkout = () => {
   };
 
   const finishWorkout = () => {
-    // Hier kannst du Validierung einbauen, ob alle Sätze abgeschlossen sind
     setCurrentWorkout(null);
-    // Rückgabe oder weitere Logik, z.B. Hinzufügen zu History
   };
 
   return {

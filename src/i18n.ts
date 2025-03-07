@@ -5,7 +5,6 @@ import { initReactI18next } from 'react-i18next';
 import translationEN from './locales/en/translation.json';
 import translationDE from './locales/de/translation.json';
 
-// Die Übersetzungsressourcen
 const resources = {
   en: {
     translation: translationEN,
@@ -23,7 +22,7 @@ i18n
     lng: 'en', // Standardsprache
     fallbackLng: 'en',
     interpolation: {
-      escapeValue: false, // React übernimmt das Escapen
+      escapeValue: false,
     },
   });
 

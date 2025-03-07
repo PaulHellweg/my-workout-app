@@ -1,11 +1,10 @@
-// src/components/CurrentWorkoutView.tsx
 import React from 'react';
 import { Box, Typography, Paper, Checkbox, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Workout } from '../types';
 
 interface CurrentWorkoutViewProps {
-  currentWorkout: Workout | null; // Annahme: Die Sets besitzen ein zusätzliches Feld "completed"
+  currentWorkout: Workout | null;
   toggleSetCompletion: (exerciseIndex: number, setIndex: number) => void;
   finishWorkout: () => void;
 }

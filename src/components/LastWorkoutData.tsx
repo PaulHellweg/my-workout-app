@@ -1,4 +1,3 @@
-// src/components/LastWorkoutData.tsx
 import React, { useMemo } from 'react';
 import { Paper, Typography } from '@mui/material';
 import { CompletedWorkout } from '../types';
@@ -33,7 +32,6 @@ const LastWorkoutData: React.FC<LastWorkoutDataProps> = ({
       <Typography variant="body1">
         Abgeschlossen am: {new Date(lastWorkout.completedAt).toLocaleString()}
       </Typography>
-      {/* Hier kannst du weitere Details anzeigen, z. B. Anzahl Übungen */}
     </Paper>
   );
 };

@@ -1,4 +1,3 @@
-// src/components/WorkoutList.tsx
 import React, { useState } from 'react';
 import { Workout, WorkoutExercise, Exercise } from '../types';
 import {
@@ -23,7 +22,7 @@ interface WorkoutListProps {
     workoutId: string,
     workoutExercise: WorkoutExercise
   ) => Promise<void>;
-  globalExercises: Exercise[]; // Hinzugefügt: globaler Exercise-State
+  globalExercises: Exercise[];
 }
 
 const WorkoutList: React.FC<WorkoutListProps> = ({
@@ -126,7 +125,7 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
           </Typography>
           <Box marginTop={2}>
             <AddExerciseToWorkoutForm
-              exercises={globalExercises} // Hier den globalen Exercise-State übergeben
+              exercises={globalExercises}
               onAdd={(selectedExerciseId, reps, weight) => {
                 const newWorkoutExercise = {
                   exerciseId: selectedExerciseId,

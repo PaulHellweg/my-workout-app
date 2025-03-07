@@ -1,4 +1,3 @@
-// src/components/ExerciseList.tsx
 import React, { useState } from 'react';
 import { Exercise } from '../types';
 import { Box, Typography, TextField, Button, IconButton } from '@mui/material';

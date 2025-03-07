@@ -1,4 +1,3 @@
-// src/components/HistoryView.tsx
 import React from 'react';
 import {
   Paper,

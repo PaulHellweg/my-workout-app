@@ -1,4 +1,3 @@
-// src/hooks/useExerciseManager.ts
 import { useState, useEffect } from 'react';
 import { Exercise, AppData, Workout } from '../types';
 import { loadAppData, saveAppData } from '../dataManager';

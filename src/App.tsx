@@ -62,7 +62,6 @@ const App: React.FC = () => {
     ? completedWorkouts[completedWorkouts.length - 1].completedAt
     : undefined;
 
-  // Navigation im Drawer
   const handleMenuItemClick = (
     view: 'home' | 'exercises' | 'workouts' | 'current' | 'history'
   ) => {
@@ -70,23 +69,20 @@ const App: React.FC = () => {
     setDrawerOpen(false);
   };
 
-  // Startet ein Workout und wechselt in den Current-Workout-View
   const handleStartWorkout = (workout: Workout) => {
     startWorkout(workout);
     setSelectedView('current');
   };
 
-  // Integrierte Logik: Beendet das aktuelle Workout, fügt es den Completed Workouts hinzu und wechselt zur History
   const handleFinishCurrentWorkout = () => {
     if (!currentWorkout) return;
-    // Erstelle ein CompletedWorkout, indem du den currentWorkout kopierst und den Abschlusszeitpunkt setzt
     const finishedWorkout: CompletedWorkout = {
       ...currentWorkout,
       completedAt: new Date().toISOString(),
     };
     setCompletedWorkouts([...completedWorkouts, finishedWorkout]);
-    finishWorkout(); // Löscht den currentWorkout
-    setSelectedView('history'); // Wechsel zur History-Ansicht
+    finishWorkout();
+    setSelectedView('history');
   };
 
   return (
