@@ -23,11 +23,13 @@ export interface CompletedWorkout extends Workout {
 
 export interface WorkoutExercise {
   exerciseId: string;
-  sets: {
-    repetitions: number;
-    weight: number;
-    completed?: boolean;
-  }[];
+  sets: Set[];
+}
+
+export interface Set {
+  repetitions: number;
+  weight: number;
+  completed?: boolean;
 }
 
 export interface AppData {

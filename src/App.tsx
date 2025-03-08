@@ -30,7 +30,7 @@ import { CompletedWorkout, Workout } from './types';
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedView, setSelectedView] = useState<
     'home' | 'exercises' | 'workouts' | 'current' | 'history'
@@ -172,6 +172,20 @@ const App: React.FC = () => {
             currentWorkout={currentWorkout}
             toggleSetCompletion={toggleSetCompletion}
             finishWorkout={handleFinishCurrentWorkout}
+            updateSet={function (
+              exerciseIndex: number,
+              setIndex: number,
+              field: 'repetitions' | 'weight',
+              value: number
+            ): void {
+              throw new Error('Function not implemented.');
+            }}
+            addSets={function (
+              exerciseIndex: number,
+              sets: { repetitions: number; weight: number }[]
+            ): void {
+              throw new Error('Function not implemented.');
+            }}
           />
         )}
         {selectedView === 'history' && (

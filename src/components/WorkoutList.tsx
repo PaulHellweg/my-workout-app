@@ -59,6 +59,7 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
           label={t('workout_name_placeholder') || 'Workout Name'}
           value={newWorkoutName}
           onChange={(e) => setNewWorkoutName(e.target.value)}
+          size="small"
           fullWidth
         />
         <Button
@@ -66,6 +67,7 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
           color="primary"
           onClick={handleAddWorkout}
           style={{ marginLeft: 8 }}
+          size="small"
         >
           {t('add_workout') || 'Workout hinzufügen'}
         </Button>
@@ -86,11 +88,18 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
                   value={editedWorkoutName}
                   onChange={(e) => setEditedWorkoutName(e.target.value)}
                   margin="dense"
+                  size="small"
                 />
-                <IconButton onClick={() => handleSaveEdit(workout.id)}>
+                <IconButton
+                  onClick={() => handleSaveEdit(workout.id)}
+                  size="small"
+                >
                   <Save />
                 </IconButton>
-                <IconButton onClick={() => setEditingWorkoutId(null)}>
+                <IconButton
+                  onClick={() => setEditingWorkoutId(null)}
+                  size="small"
+                >
                   <Cancel />
                 </IconButton>
               </>
@@ -110,10 +119,14 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
                       setEditingWorkoutId(workout.id);
                       setEditedWorkoutName(workout.name);
                     }}
+                    size="small"
                   >
                     <Edit />
                   </IconButton>
-                  <IconButton onClick={() => deleteWorkout(workout.id)}>
+                  <IconButton
+                    onClick={() => deleteWorkout(workout.id)}
+                    size="small"
+                  >
                     <Delete />
                   </IconButton>
                 </Box>

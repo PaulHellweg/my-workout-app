@@ -45,6 +45,7 @@ const AddExerciseToWorkoutForm: React.FC<AddExerciseToWorkoutFormProps> = ({
           value={selectedExerciseId}
           onChange={(e) => setSelectedExerciseId(e.target.value)}
           label={t('select_exercise') || 'Übung auswählen'}
+          size="small"
         >
           <MenuItem value="">
             <em>{t('select_exercise') || 'Übung auswählen'}</em>
@@ -63,6 +64,7 @@ const AddExerciseToWorkoutForm: React.FC<AddExerciseToWorkoutFormProps> = ({
         onChange={(e) => setRepetitions(parseInt(e.target.value) || 0)}
         fullWidth
         margin="normal"
+        size="small"
       />
       <TextField
         label={t('weight') || 'Gewicht'}
@@ -71,8 +73,14 @@ const AddExerciseToWorkoutForm: React.FC<AddExerciseToWorkoutFormProps> = ({
         onChange={(e) => setWeight(parseFloat(e.target.value) || 0)}
         fullWidth
         margin="normal"
+        size="small"
       />
-      <Button variant="contained" color="secondary" onClick={handleSubmit}>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={handleSubmit}
+        size="small"
+      >
         {t('add_exercise_to_workout_button') || 'Übung hinzufügen'}
       </Button>
     </Box>

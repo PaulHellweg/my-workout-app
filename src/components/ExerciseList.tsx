@@ -45,12 +45,14 @@ const ExerciseList: React.FC<ExerciseListProps> = ({
           value={newExerciseName}
           onChange={(e) => setNewExerciseName(e.target.value)}
           fullWidth
+          size="small"
         />
         <Button
           variant="contained"
           color="primary"
           onClick={handleAddExercise}
           style={{ marginLeft: 8 }}
+          size="small"
         >
           {t('add_exercise') || 'Exercise hinzufügen'}
         </Button>
@@ -68,11 +70,18 @@ const ExerciseList: React.FC<ExerciseListProps> = ({
                 value={editedExerciseName}
                 onChange={(e) => setEditedExerciseName(e.target.value)}
                 margin="dense"
+                size="small"
               />
-              <IconButton onClick={() => handleSaveEdit(exercise.id)}>
+              <IconButton
+                onClick={() => handleSaveEdit(exercise.id)}
+                size="small"
+              >
                 <Save />
               </IconButton>
-              <IconButton onClick={() => setEditingExerciseId(null)}>
+              <IconButton
+                onClick={() => setEditingExerciseId(null)}
+                size="small"
+              >
                 <Cancel />
               </IconButton>
             </>
@@ -86,10 +95,14 @@ const ExerciseList: React.FC<ExerciseListProps> = ({
                   setEditingExerciseId(exercise.id);
                   setEditedExerciseName(exercise.name);
                 }}
+                size="small"
               >
                 <Edit />
               </IconButton>
-              <IconButton onClick={() => deleteExercise(exercise.id)}>
+              <IconButton
+                onClick={() => deleteExercise(exercise.id)}
+                size="small"
+              >
                 <Delete />
               </IconButton>
             </>

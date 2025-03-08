@@ -11,7 +11,6 @@ const LastWorkoutData: React.FC<LastWorkoutDataProps> = ({
 }) => {
   const lastWorkout = useMemo(() => {
     if (completedWorkouts.length === 0) return null;
-    // Sortiere nach dem Abschlussdatum und nimm das zuletzt abgeschlossene Workout
     const sorted = [...completedWorkouts].sort(
       (a, b) =>
         new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
