@@ -1,4 +1,3 @@
-// useCurrentWorkout.ts
 import { useState } from 'react';
 import { Workout } from '../types';
 
@@ -6,7 +5,6 @@ export const useCurrentWorkout = () => {
   const [currentWorkout, setCurrentWorkout] = useState<Workout | null>(null);
 
   const startWorkout = (workout: Workout) => {
-    // Starte das Workout, ggf. initialisiere fehlende Felder
     setCurrentWorkout(workout);
   };
 

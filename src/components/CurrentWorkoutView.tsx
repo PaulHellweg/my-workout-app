@@ -57,7 +57,7 @@ const CurrentWorkoutView: React.FC<CurrentWorkoutViewProps> = ({
       {currentWorkout.exercises.map((exercise, exIdx) => (
         <Box key={exIdx} marginTop={2}>
           <Typography variant="subtitle1">
-            {t('exercise')} {exIdx + 1}: {exercise.exerciseId}
+            {t('exercise')} {exIdx + 1}: {exercise.name}
           </Typography>
           {exercise.sets.map((set, setIdx) => (
             <Box
