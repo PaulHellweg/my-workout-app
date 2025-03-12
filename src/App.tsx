@@ -44,15 +44,26 @@ const App: React.FC = () => {
 
   const { exercises, addExercise, updateExercise, deleteExercise } =
     useExerciseManager();
+
   const {
     workouts,
     addWorkout,
     updateWorkout,
     deleteWorkout,
     addExerciseToWorkout,
+    deleteExerciseFromWorkout,
   } = useWorkoutManager(exercises);
-  const { currentWorkout, toggleSetCompletion, finishWorkout, startWorkout } =
-    useCurrentWorkout();
+
+  const {
+    currentWorkout,
+    toggleSetCompletion,
+    finishWorkout,
+    startWorkout,
+    updateSet,
+    addSets,
+    deleteSet,
+  } = useCurrentWorkout();
+
   const [completedWorkouts, setCompletedWorkouts] = useState<
     CompletedWorkout[]
   >([]);
@@ -165,6 +176,8 @@ const App: React.FC = () => {
             startWorkout={handleStartWorkout}
             addExerciseToWorkout={addExerciseToWorkout}
             globalExercises={exercises}
+            deleteExerciseFromWorkout={deleteExerciseFromWorkout}
+            i18nIsDynamicList={true}
           />
         )}
         {selectedView === 'current' && (
@@ -172,22 +185,12 @@ const App: React.FC = () => {
             currentWorkout={currentWorkout}
             toggleSetCompletion={toggleSetCompletion}
             finishWorkout={handleFinishCurrentWorkout}
-            updateSet={function (
-              exerciseIndex: number,
-              setIndex: number,
-              field: 'repetitions' | 'weight',
-              value: number
-            ): void {
-              throw new Error('Function not implemented.');
-            }}
-            addSets={function (
-              exerciseIndex: number,
-              sets: { repetitions: number; weight: number }[]
-            ): void {
-              throw new Error('Function not implemented.');
-            }}
+            updateSet={updateSet}
+            addSets={addSets}
+            deleteSet={deleteSet}
           />
         )}
+
         {selectedView === 'history' && (
           <HistoryView completedWorkouts={completedWorkouts} />
         )}

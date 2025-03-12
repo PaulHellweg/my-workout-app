@@ -55,6 +55,21 @@ export const useWorkoutManager = (exercises: Exercise[]) => {
     await persistWorkouts(updatedWorkouts);
   };
 
+  const deleteExerciseFromWorkout = async (
+    workoutId: string,
+    exerciseId: string
+  ) => {
+    const updatedWorkouts = workouts.map((w) =>
+      w.id === workoutId
+        ? {
+            ...w,
+            exercises: w.exercises.filter((e) => e.exerciseId !== exerciseId),
+          }
+        : w
+    );
+    await persistWorkouts(updatedWorkouts);
+  };
+
   return {
     workouts,
     addWorkout,
@@ -62,5 +77,6 @@ export const useWorkoutManager = (exercises: Exercise[]) => {
     deleteWorkout,
     addExerciseToWorkout,
     setWorkouts,
+    deleteExerciseFromWorkout,
   };
 };

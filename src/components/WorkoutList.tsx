@@ -22,6 +22,10 @@ interface WorkoutListProps {
     workoutId: string,
     workoutExercise: WorkoutExercise
   ) => Promise<void>;
+  deleteExerciseFromWorkout: (
+    workoutId: string,
+    exerciseId: string
+  ) => Promise<void>;
   globalExercises: Exercise[];
 }
 
@@ -32,6 +36,7 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
   deleteWorkout,
   startWorkout,
   addExerciseToWorkout,
+  deleteExerciseFromWorkout,
   globalExercises,
 }) => {
   const { t } = useTranslation();
@@ -148,6 +153,46 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
               }}
             />
           </Box>
+          {/* Anzeige der hinzugefügten Übungen */}
+          {workout.exercises && workout.exercises.length > 0 && (
+            <Box marginTop={2}>
+              <Typography variant="subtitle1">
+                {t('exercises') || 'Übungen'}:
+              </Typography>
+              {workout.exercises.map((workoutExercise, index) => {
+                // Übungsdetails anhand der ID aus den globalen Übungen suchen
+                const exercise = globalExercises.find(
+                  (ex) => ex.id === workoutExercise.exerciseId
+                );
+                return (
+                  <Box
+                    key={index}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    padding="4px 0"
+                  >
+                    <Typography variant="body2">
+                      {exercise
+                        ? exercise.name
+                        : t('unknown_exercise') || 'Unbekannte Übung'}
+                    </Typography>
+                    <IconButton
+                      onClick={() =>
+                        deleteExerciseFromWorkout(
+                          workout.id,
+                          workoutExercise.exerciseId
+                        )
+                      }
+                      size="small"
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
         </Paper>
       ))}
     </Box>

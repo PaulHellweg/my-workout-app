@@ -1,39 +1,58 @@
+// useCurrentWorkout.ts
 import { useState } from 'react';
-import { Workout, WorkoutExercise } from '../types';
-
-interface CurrentWorkout extends Workout {
-  exercises: {
-    exerciseId: string;
-    sets: (WorkoutExercise['sets'][number] & { completed?: boolean })[];
-  }[];
-}
+import { Workout } from '../types';
 
 export const useCurrentWorkout = () => {
-  const [currentWorkout, setCurrentWorkout] = useState<CurrentWorkout | null>(
-    null
-  );
+  const [currentWorkout, setCurrentWorkout] = useState<Workout | null>(null);
 
   const startWorkout = (workout: Workout) => {
-    const workoutCopy: CurrentWorkout = {
-      ...workout,
-      exercises: workout.exercises.map((we) => ({
-        ...we,
-        sets: we.sets.map((set) => ({ ...set, completed: false })),
-      })),
-    };
-    setCurrentWorkout(workoutCopy);
+    // Starte das Workout, ggf. initialisiere fehlende Felder
+    setCurrentWorkout(workout);
   };
 
   const toggleSetCompletion = (exerciseIndex: number, setIndex: number) => {
     if (!currentWorkout) return;
     const updatedWorkout = { ...currentWorkout };
     const exercise = updatedWorkout.exercises[exerciseIndex];
-    if (exercise) {
-      exercise.sets = exercise.sets.map((set, idx) =>
-        idx === setIndex ? { ...set, completed: !set.completed } : set
-      );
-      setCurrentWorkout(updatedWorkout);
-    }
+    exercise.sets[setIndex].completed = !exercise.sets[setIndex].completed;
+    setCurrentWorkout(updatedWorkout);
+  };
+
+  const updateSet = (
+    exerciseIndex: number,
+    setIndex: number,
+    field: 'repetitions' | 'weight',
+    value: number
+  ) => {
+    if (!currentWorkout) return;
+    const updatedWorkout = { ...currentWorkout };
+    updatedWorkout.exercises[exerciseIndex].sets[setIndex] = {
+      ...updatedWorkout.exercises[exerciseIndex].sets[setIndex],
+      [field]: value,
+    };
+    setCurrentWorkout(updatedWorkout);
+  };
+
+  const addSets = (exerciseIndex: number, numberOfSets: number) => {
+    if (!currentWorkout) return;
+    const updatedWorkout = { ...currentWorkout };
+    const newSets = Array.from({ length: numberOfSets }, () => ({
+      repetitions: 0,
+      weight: 0,
+      completed: false,
+    }));
+    updatedWorkout.exercises[exerciseIndex].sets = [
+      ...updatedWorkout.exercises[exerciseIndex].sets,
+      ...newSets,
+    ];
+    setCurrentWorkout(updatedWorkout);
+  };
+
+  const deleteSet = (exerciseIndex: number, setIndex: number) => {
+    if (!currentWorkout) return;
+    const updatedWorkout = { ...currentWorkout };
+    updatedWorkout.exercises[exerciseIndex].sets.splice(setIndex, 1);
+    setCurrentWorkout(updatedWorkout);
   };
 
   const finishWorkout = () => {
@@ -44,7 +63,9 @@ export const useCurrentWorkout = () => {
     currentWorkout,
     startWorkout,
     toggleSetCompletion,
+    updateSet,
+    addSets,
     finishWorkout,
-    setCurrentWorkout,
+    deleteSet,
   };
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Typography,
@@ -6,7 +6,9 @@ import {
   Checkbox,
   Button,
   TextField,
+  IconButton,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import { Workout } from '../types';
 
@@ -19,11 +21,9 @@ interface CurrentWorkoutViewProps {
     field: 'repetitions' | 'weight',
     value: number
   ) => void;
-  addSets: (
-    exerciseIndex: number,
-    sets: { repetitions: number; weight: number }[]
-  ) => void;
+  addSets: (exerciseIndex: number, numberOfSets: number) => void;
   finishWorkout: () => void;
+  deleteSet: (exerciseIndex: number, setIndex: number) => void;
 }
 
 const CurrentWorkoutView: React.FC<CurrentWorkoutViewProps> = ({
@@ -32,9 +32,12 @@ const CurrentWorkoutView: React.FC<CurrentWorkoutViewProps> = ({
   updateSet,
   addSets,
   finishWorkout,
+  deleteSet,
 }) => {
   const { t } = useTranslation();
-  const [setsToAdd, setSetsToAdd] = useState<{ [key: number]: number }>({});
+  const [setsToAdd, setSetsToAdd] = React.useState<{ [key: number]: number }>(
+    {}
+  );
 
   if (!currentWorkout) {
     return (
@@ -95,6 +98,13 @@ const CurrentWorkoutView: React.FC<CurrentWorkoutViewProps> = ({
               <Typography variant="body2">
                 {t('set') || 'Set'} {setIdx + 1}
               </Typography>
+              <IconButton
+                onClick={() => deleteSet(exIdx, setIdx)}
+                size="small"
+                style={{ marginLeft: '8px' }}
+              >
+                <DeleteIcon />
+              </IconButton>
             </Box>
           ))}
           <Box display="flex" alignItems="center" marginTop={1}>
@@ -113,16 +123,7 @@ const CurrentWorkoutView: React.FC<CurrentWorkoutViewProps> = ({
             />
             <Button
               variant="outlined"
-              size="small"
-              onClick={() =>
-                addSets(
-                  exIdx,
-                  Array(setsToAdd[exIdx] ?? 1).fill({
-                    repetitions: 0,
-                    weight: 0,
-                  })
-                )
-              }
+              onClick={() => addSets(exIdx, setsToAdd[exIdx] ?? 1)}
             >
               {t('add_sets') || 'Sets hinzufügen'}
             </Button>
@@ -130,12 +131,7 @@ const CurrentWorkoutView: React.FC<CurrentWorkoutViewProps> = ({
         </Box>
       ))}
       <Box marginTop={2}>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={finishWorkout}
-          size="small"
-        >
+        <Button variant="contained" color="secondary" onClick={finishWorkout}>
           {t('finish_workout') || 'Workout beenden'}
         </Button>
       </Box>
