@@ -45,11 +45,27 @@ export const useWorkoutManager = (exercises: Exercise[]) => {
 
   const addExerciseToWorkout = async (
     workoutId: string,
-    workoutExercise: Workout['exercises'][number]
+    workoutExercise: Exercise,
+    reps: number,
+    weight: number
   ) => {
     const updatedWorkouts = workouts.map((w) =>
       w.id === workoutId
-        ? { ...w, exercises: [...w.exercises, workoutExercise] }
+        ? {
+            ...w,
+            exercises: [
+              ...w.exercises,
+              {
+                exerciseId: workoutExercise.id,
+                name: workoutExercise.name,
+                sets: Array.from({ length: reps }, () => ({
+                  repetitions: 0,
+                  weight: 0,
+                  completed: false,
+                })),
+              },
+            ],
+          }
         : w
     );
     await persistWorkouts(updatedWorkouts);

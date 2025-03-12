@@ -23,6 +23,7 @@ export interface CompletedWorkout extends Workout {
 
 export interface WorkoutExercise {
   exerciseId: string;
+  name: string;
   sets: Set[];
 }
 

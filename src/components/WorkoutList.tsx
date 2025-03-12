@@ -20,7 +20,9 @@ interface WorkoutListProps {
   startWorkout: (workout: Workout) => void;
   addExerciseToWorkout: (
     workoutId: string,
-    workoutExercise: WorkoutExercise
+    workoutExercise: Exercise,
+    reps: number,
+    weight: number
   ) => Promise<void>;
   deleteExerciseFromWorkout: (
     workoutId: string,
@@ -145,22 +147,25 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
             <AddExerciseToWorkoutForm
               exercises={globalExercises}
               onAdd={(selectedExerciseId, reps, weight) => {
-                const newWorkoutExercise = {
-                  exerciseId: selectedExerciseId,
-                  sets: [{ repetitions: reps, weight: weight }],
-                };
-                return addExerciseToWorkout(workout.id, newWorkoutExercise);
+                const selectedExercise = globalExercises.find(
+                  (ex) => ex.id === selectedExerciseId
+                );
+                if (!selectedExercise) return;
+                return addExerciseToWorkout(
+                  workout.id,
+                  selectedExercise,
+                  reps,
+                  weight
+                );
               }}
             />
           </Box>
-          {/* Anzeige der hinzugefügten Übungen */}
           {workout.exercises && workout.exercises.length > 0 && (
             <Box marginTop={2}>
               <Typography variant="subtitle1">
                 {t('exercises') || 'Übungen'}:
               </Typography>
               {workout.exercises.map((workoutExercise, index) => {
-                // Übungsdetails anhand der ID aus den globalen Übungen suchen
                 const exercise = globalExercises.find(
                   (ex) => ex.id === workoutExercise.exerciseId
                 );
