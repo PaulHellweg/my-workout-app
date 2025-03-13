@@ -35,7 +35,7 @@ My Workout App ist eine moderne Workout-Tracker-Anwendung, die mit React und Typ
 1. Klone das Repository:
 
    ```bash
-   git clone https://github.com/your-username/my-workout-app.git
+   git clone https://github.com/PaulHellweg/my-workout-app.git
    cd my-workout-app
    Installiere die Abhängigkeiten:
    ```
