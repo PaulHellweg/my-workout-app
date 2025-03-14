@@ -30,8 +30,8 @@ import { CompletedWorkout, Workout } from './types';
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const [darkMode, setDarkMode] = useState(true);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(true);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [selectedView, setSelectedView] = useState<
     'home' | 'exercises' | 'workouts' | 'current' | 'history'
   >('home');
