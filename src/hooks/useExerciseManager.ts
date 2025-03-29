@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Exercise, AppData, Workout } from '../types';
+import { Exercise, AppData, Workout, CompletedWorkout } from '../types';
 import { loadAppData, saveAppData } from '../dataManager';
 
 export const useExerciseManager = () => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [existingWorkouts, setExistingWorkouts] = useState<Workout[]>([]);
+  const [completedWorkouts, setCompletedWorkouts] = useState<
+    CompletedWorkout[]
+  >([]);
 
   useEffect(() => {
     (async () => {
@@ -12,13 +15,18 @@ export const useExerciseManager = () => {
       if (storedData) {
         setExercises(storedData.exercises);
         setExistingWorkouts(storedData.workouts);
+        setCompletedWorkouts(storedData.completedWorkouts);
       }
     })();
   }, []);
 
   const persistExercises = async (newExercises: Exercise[]) => {
     setExercises(newExercises);
-    await saveAppData({ exercises: newExercises, workouts: existingWorkouts });
+    await saveAppData({
+      exercises: newExercises,
+      workouts: existingWorkouts,
+      completedWorkouts: completedWorkouts,
+    });
   };
 
   const addExercise = async (exerciseName: string) => {
@@ -29,7 +37,6 @@ export const useExerciseManager = () => {
       description: '',
     };
     const updatedExercises = [...exercises, newExercise];
-    console.log('Neue Übung hinzugefügt:', newExercise);
     await persistExercises(updatedExercises);
   };
   const updateExercise = async (exerciseId: string, newName: string) => {

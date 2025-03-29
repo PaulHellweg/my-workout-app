@@ -27,6 +27,8 @@ import { useExerciseManager } from './hooks/useExerciseManager';
 import { useWorkoutManager } from './hooks/useWorkoutManager';
 import { useCurrentWorkout } from './hooks/useCurrentWorkout';
 import { CompletedWorkout, Workout } from './types';
+import { saveAppData } from './dataManager';
+import { useFinishedWorkouts } from './hooks/useFinishedWorkouts';
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -64,9 +66,7 @@ const App: React.FC = () => {
     deleteSet,
   } = useCurrentWorkout();
 
-  const [completedWorkouts, setCompletedWorkouts] = useState<
-    CompletedWorkout[]
-  >([]);
+  const { completedWorkouts } = useFinishedWorkouts();
 
   const lastWorkoutDate = completedWorkouts.length
     ? completedWorkouts[completedWorkouts.length - 1].completedAt
@@ -90,7 +90,11 @@ const App: React.FC = () => {
       ...currentWorkout,
       completedAt: new Date().toISOString(),
     };
-    setCompletedWorkouts([...completedWorkouts, finishedWorkout]);
+    saveAppData({
+      exercises,
+      workouts,
+      completedWorkouts: [...completedWorkouts, finishedWorkout],
+    });
     finishWorkout();
     setSelectedView('history');
   };

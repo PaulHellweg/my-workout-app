@@ -36,4 +36,9 @@ export interface Set {
 export interface AppData {
   exercises: Exercise[];
   workouts: Workout[];
+  completedWorkouts: CompletedWorkout[];
+}
+
+export interface CompletedWorkout extends Workout {
+  completedAt: string;
 }

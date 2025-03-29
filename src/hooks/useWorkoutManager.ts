@@ -1,22 +1,30 @@
 import { useState, useEffect } from 'react';
-import { Workout, Exercise, AppData } from '../types';
+import { Workout, Exercise, AppData, CompletedWorkout } from '../types';
 import { loadAppData, saveAppData } from '../dataManager';
 
 export const useWorkoutManager = (exercises: Exercise[]) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [completedWorkouts, setCompletedWorkouts] = useState<
+    CompletedWorkout[]
+  >([]);
 
   useEffect(() => {
     (async () => {
       const storedData: AppData | null = await loadAppData();
       if (storedData) {
         setWorkouts(storedData.workouts);
+        setCompletedWorkouts(storedData.completedWorkouts);
       }
     })();
   }, []);
 
   const persistWorkouts = async (newWorkouts: Workout[]) => {
     setWorkouts(newWorkouts);
-    await saveAppData({ exercises, workouts: newWorkouts });
+    await saveAppData({
+      exercises,
+      workouts: newWorkouts,
+      completedWorkouts: completedWorkouts,
+    });
   };
 
   const addWorkout = async (workoutName: string) => {
