@@ -28,5 +28,8 @@
   "workout_not_complete": "Bitte haken Sie alle Sätze ab, bevor Sie das Workout abschließen.",
   "workouts": "Workouts",
   "workout_name": "Workout-Name",
-  "completed_at": "Abgeschlossen am"
+  "completed_at": "Abgeschlossen am",
+  "total_sets": "Gesamtanzahl der Sätze",
+  "total_reps": "Gesamtanzahl der Wiederholungen",
+  "total_weight": "Gesamtgewicht"
 }

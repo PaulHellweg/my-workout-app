@@ -28,5 +28,8 @@
   "workout_not_complete": "Please complete all sets before finishing the workout.",
   "workouts": "Workouts",
   "workout_name": "Workout Name",
-  "completed_at": "Completed at"
+  "completed_at": "Completed at",
+  "total_sets": "Total Sets",
+  "total_reps": "Total Reps",
+  "total_weight": "Total Weight"
 }
