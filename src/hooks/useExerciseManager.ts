@@ -16,6 +16,10 @@ export const useExerciseManager = () => {
         setExercises(storedData.exercises);
         setExistingWorkouts(storedData.workouts);
         setCompletedWorkouts(storedData.completedWorkouts);
+      } else {
+        setExercises([]);
+        setExistingWorkouts([]);
+        setCompletedWorkouts([]);
       }
     })();
   }, []);

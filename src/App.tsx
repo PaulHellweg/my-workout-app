@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -25,8 +25,8 @@ import HomeView from './components/HomeView';
 import { useExerciseManager } from './hooks/useExerciseManager';
 import { useWorkoutManager } from './hooks/useWorkoutManager';
 import { useCurrentWorkout } from './hooks/useCurrentWorkout';
-import { CompletedWorkout, Workout } from './types';
-import { saveAppData } from './dataManager';
+import { AppData, CompletedWorkout, Workout } from './types';
+import { loadAppData } from './dataManager';
 import { useFinishedWorkouts } from './hooks/useFinishedWorkouts';
 import { t } from 'i18next';
 import './i18n'; // Import your i18n configuration
@@ -38,6 +38,16 @@ const App: React.FC = () => {
   const [selectedView, setSelectedView] = useState<
     'home' | 'exercises' | 'workouts' | 'current' | 'history'
   >('home');
+
+  const [appData, setAppData] = useState<AppData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await loadAppData();
+      setAppData(data);
+    };
+    fetchData();
+  }, []);
 
   const theme = createTheme({
     palette: {
@@ -84,18 +94,18 @@ const App: React.FC = () => {
     startWorkout(workout);
     setSelectedView('current');
   };
-
   const handleFinishCurrentWorkout = () => {
     if (!currentWorkout) return;
     const finishedWorkout: CompletedWorkout = {
       ...currentWorkout,
       completedAt: new Date().toISOString(),
     };
-    saveAppData({
+    const updatedAppData = {
       exercises,
       workouts,
       completedWorkouts: [...completedWorkouts, finishedWorkout],
-    });
+    };
+    setAppData(updatedAppData);
     finishWorkout();
     setSelectedView('history');
   };
@@ -162,6 +172,10 @@ const App: React.FC = () => {
             totalExercises={exercises.length}
             totalWorkouts={workouts.length}
             lastWorkoutDate={lastWorkoutDate}
+            appData={
+              appData || { exercises: [], workouts: [], completedWorkouts: [] }
+            }
+            setAppData={setAppData}
           />
         )}
         {selectedView === 'exercises' && (
