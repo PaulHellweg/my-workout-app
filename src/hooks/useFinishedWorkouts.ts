@@ -1,4 +1,4 @@
-import React, { use, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { AppData, CompletedWorkout } from '../types';
 import { loadAppData } from '../dataManager';

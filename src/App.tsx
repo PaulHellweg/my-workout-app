@@ -17,7 +17,6 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
 import ExerciseList from './components/ExerciseList';
 import WorkoutList from './components/WorkoutList';
 import CurrentWorkoutView from './components/CurrentWorkoutView';

@@ -9,7 +9,6 @@ import {
   CartesianGrid,
 } from 'recharts';
 import { CompletedWorkout } from '../types';
-import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';
 
 interface WorkoutStatsChartProps {

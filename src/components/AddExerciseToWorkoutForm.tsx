@@ -8,7 +8,6 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { Exercise } from '../types';
 import { t } from 'i18next';
 

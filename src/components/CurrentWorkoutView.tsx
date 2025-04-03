@@ -9,7 +9,6 @@ import {
   IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useTranslation } from 'react-i18next';
 import { Workout } from '../types';
 import { t } from 'i18next';
 

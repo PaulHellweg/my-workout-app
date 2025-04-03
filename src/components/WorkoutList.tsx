@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Workout, WorkoutExercise, Exercise } from '../types';
+import { Workout, Exercise } from '../types';
 import {
   Box,
   Typography,
@@ -9,7 +9,6 @@ import {
   Paper,
 } from '@mui/material';
 import { Edit, Delete, Save, Cancel } from '@mui/icons-material';
-import { useTranslation } from 'react-i18next';
 import AddExerciseToWorkoutForm from './AddExerciseToWorkoutForm';
 import { t } from 'i18next';
 

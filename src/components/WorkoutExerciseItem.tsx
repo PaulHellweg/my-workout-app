@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, ListItem, ListItemText, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';
 
 interface WorkoutExerciseItemProps {

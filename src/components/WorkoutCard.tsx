@@ -7,7 +7,6 @@ import {
   Typography,
   Stack,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { CompletedWorkout } from '../types';
 import WorkoutExerciseItem from './WorkoutExerciseItem';
 import { t } from 'i18next';
