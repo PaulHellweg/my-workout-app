@@ -29,9 +29,11 @@ import { useCurrentWorkout } from './hooks/useCurrentWorkout';
 import { CompletedWorkout, Workout } from './types';
 import { saveAppData } from './dataManager';
 import { useFinishedWorkouts } from './hooks/useFinishedWorkouts';
+import { t } from 'i18next';
+import './i18n'; // Import your i18n configuration
+import i18n from './i18n';
 
 const App: React.FC = () => {
-  const { t, i18n } = useTranslation();
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [selectedView, setSelectedView] = useState<
@@ -181,7 +183,6 @@ const App: React.FC = () => {
             addExerciseToWorkout={addExerciseToWorkout}
             globalExercises={exercises}
             deleteExerciseFromWorkout={deleteExerciseFromWorkout}
-            i18nIsDynamicList={true}
           />
         )}
         {selectedView === 'current' && (

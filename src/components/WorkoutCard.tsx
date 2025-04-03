@@ -10,14 +10,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import { CompletedWorkout } from '../types';
 import WorkoutExerciseItem from './WorkoutExerciseItem';
+import { t } from 'i18next';
 
 interface WorkoutCardProps {
   workout: CompletedWorkout;
 }
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout }) => {
-  const { t } = useTranslation();
-
   const formatDate = (dateStr: string) =>
     new Date(dateStr).toLocaleDateString(undefined, {
       year: 'numeric',

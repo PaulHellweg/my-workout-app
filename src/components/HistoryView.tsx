@@ -1,16 +1,14 @@
 import React from 'react';
 import { Paper, Typography, List } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { CompletedWorkout } from '../types';
 import WorkoutCard from './WorkoutCard';
+import { t } from 'i18next';
 
 interface HistoryViewProps {
   completedWorkouts: CompletedWorkout[];
 }
 
 const HistoryView: React.FC<HistoryViewProps> = ({ completedWorkouts }) => {
-  const { t } = useTranslation();
-
   React.useEffect(() => {
     console.log('Completed Workouts:', completedWorkouts);
   }, [completedWorkouts]);

@@ -11,6 +11,7 @@ import {
 import { Edit, Delete, Save, Cancel } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import AddExerciseToWorkoutForm from './AddExerciseToWorkoutForm';
+import { t } from 'i18next';
 
 interface WorkoutListProps {
   workouts: Workout[];
@@ -41,7 +42,6 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
   deleteExerciseFromWorkout,
   globalExercises,
 }) => {
-  const { t } = useTranslation();
   const [newWorkoutName, setNewWorkoutName] = useState('');
   const [editingWorkoutId, setEditingWorkoutId] = useState<string | null>(null);
   const [editedWorkoutName, setEditedWorkoutName] = useState('');

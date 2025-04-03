@@ -11,6 +11,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import { Workout } from '../types';
+import { t } from 'i18next';
 
 interface CurrentWorkoutViewProps {
   currentWorkout: Workout | null;
@@ -34,7 +35,6 @@ const CurrentWorkoutView: React.FC<CurrentWorkoutViewProps> = ({
   finishWorkout,
   deleteSet,
 }) => {
-  const { t } = useTranslation();
   const [setsToAdd, setSetsToAdd] = React.useState<{ [key: number]: number }>(
     {}
   );

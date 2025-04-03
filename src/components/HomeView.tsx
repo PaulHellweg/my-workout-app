@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 interface HomeViewProps {
   totalExercises: number;
@@ -13,8 +14,6 @@ const HomeView: React.FC<HomeViewProps> = ({
   totalWorkouts,
   lastWorkoutDate,
 }) => {
-  const { t } = useTranslation();
-
   return (
     <Box>
       <Typography variant="h4" gutterBottom>

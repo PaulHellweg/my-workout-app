@@ -3,6 +3,7 @@ import { Exercise } from '../types';
 import { Box, Typography, TextField, Button, IconButton } from '@mui/material';
 import { Edit, Delete, Save, Cancel } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 interface ExerciseListProps {
   exercises: Exercise[];
@@ -17,7 +18,6 @@ const ExerciseList: React.FC<ExerciseListProps> = ({
   updateExercise,
   deleteExercise,
 }) => {
-  const { t } = useTranslation();
   const [newExerciseName, setNewExerciseName] = useState('');
   const [editingExerciseId, setEditingExerciseId] = useState<string | null>(
     null

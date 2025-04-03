@@ -10,14 +10,13 @@ import {
 } from 'recharts';
 import { CompletedWorkout } from '../types';
 import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 interface WorkoutStatsChartProps {
   workout: CompletedWorkout;
 }
 
 const WorkoutStatsChart: React.FC<WorkoutStatsChartProps> = ({ workout }) => {
-  const { t } = useTranslation();
-
   const chartData = workout.exercises.map((exercise) => {
     const totalWeight = exercise.sets.reduce((sum, set) => sum + set.weight, 0);
     const totalReps = exercise.sets.reduce(

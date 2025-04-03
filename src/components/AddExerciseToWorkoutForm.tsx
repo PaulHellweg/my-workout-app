@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../types';
+import { t } from 'i18next';
 
 interface AddExerciseToWorkoutFormProps {
   exercises: Exercise[];
@@ -24,7 +25,6 @@ const AddExerciseToWorkoutForm: React.FC<AddExerciseToWorkoutFormProps> = ({
   exercises,
   onAdd,
 }) => {
-  const { t } = useTranslation();
   const [selectedExerciseId, setSelectedExerciseId] = useState('');
   const [repetitions, setRepetitions] = useState<number>(0);
   const [weight, setWeight] = useState<number>(0);
