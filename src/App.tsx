@@ -26,11 +26,13 @@ import { useExerciseManager } from './hooks/useExerciseManager';
 import { useWorkoutManager } from './hooks/useWorkoutManager';
 import { useCurrentWorkout } from './hooks/useCurrentWorkout';
 import { AppData, CompletedWorkout, Workout } from './types';
-import { loadAppData } from './dataManager';
+import { loadAppData, saveAppData } from './dataManager';
 import { useFinishedWorkouts } from './hooks/useFinishedWorkouts';
 import { t } from 'i18next';
 import './i18n'; // Import your i18n configuration
 import i18n from './i18n';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState<boolean>(true);
@@ -106,114 +108,121 @@ const App: React.FC = () => {
       completedWorkouts: [...completedWorkouts, finishedWorkout],
     };
     setAppData(updatedAppData);
+    saveAppData(updatedAppData);
     finishWorkout();
     setSelectedView('history');
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            edge="start"
-            onClick={() => setDrawerOpen(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
-            {t('welcome')}
-          </Typography>
-          <Switch
-            checked={darkMode}
-            onChange={() => setDarkMode(!darkMode)}
-            color="default"
-          />
-          <Button color="inherit" onClick={() => i18n.changeLanguage('en')}>
-            EN
-          </Button>
-          <Button color="inherit" onClick={() => i18n.changeLanguage('de')}>
-            DE
-          </Button>
-        </Toolbar>
-      </AppBar>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={() => setDrawerOpen(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" style={{ flexGrow: 1 }}>
+              {t('welcome')}
+            </Typography>
+            <Switch
+              checked={darkMode}
+              onChange={() => setDarkMode(!darkMode)}
+              color="default"
+            />
+            <Button color="inherit" onClick={() => i18n.changeLanguage('en')}>
+              EN
+            </Button>
+            <Button color="inherit" onClick={() => i18n.changeLanguage('de')}>
+              DE
+            </Button>
+          </Toolbar>
+        </AppBar>
 
-      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <Box sx={{ width: 250 }} role="presentation">
-          <List>
-            <ListItem>
-              <ListItemText primary={t('menu') || 'Menu'} />
-            </ListItem>
-            <ListItemButton onClick={() => handleMenuItemClick('home')}>
-              <ListItemText primary={t('home') || 'Home'} />
-            </ListItemButton>
-            <ListItemButton onClick={() => handleMenuItemClick('exercises')}>
-              <ListItemText primary={t('exercises') || 'Exercises'} />
-            </ListItemButton>
-            <ListItemButton onClick={() => handleMenuItemClick('workouts')}>
-              <ListItemText primary={t('workouts') || 'Workouts'} />
-            </ListItemButton>
-            <ListItemButton onClick={() => handleMenuItemClick('current')}>
-              <ListItemText
-                primary={t('current_workout') || 'Current Workout'}
-              />
-            </ListItemButton>
-            <ListItemButton onClick={() => handleMenuItemClick('history')}>
-              <ListItemText primary={t('history') || 'History'} />
-            </ListItemButton>
-          </List>
-        </Box>
-      </Drawer>
+        <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+          <Box sx={{ width: 250 }} role="presentation">
+            <List>
+              <ListItem>
+                <ListItemText primary={t('menu') || 'Menu'} />
+              </ListItem>
+              <ListItemButton onClick={() => handleMenuItemClick('home')}>
+                <ListItemText primary={t('home') || 'Home'} />
+              </ListItemButton>
+              <ListItemButton onClick={() => handleMenuItemClick('exercises')}>
+                <ListItemText primary={t('exercises') || 'Exercises'} />
+              </ListItemButton>
+              <ListItemButton onClick={() => handleMenuItemClick('workouts')}>
+                <ListItemText primary={t('workouts') || 'Workouts'} />
+              </ListItemButton>
+              <ListItemButton onClick={() => handleMenuItemClick('current')}>
+                <ListItemText
+                  primary={t('current_workout') || 'Current Workout'}
+                />
+              </ListItemButton>
+              <ListItemButton onClick={() => handleMenuItemClick('history')}>
+                <ListItemText primary={t('history') || 'History'} />
+              </ListItemButton>
+            </List>
+          </Box>
+        </Drawer>
 
-      <Container maxWidth="md" style={{ padding: '20px' }}>
-        {selectedView === 'home' && (
-          <HomeView
-            totalExercises={exercises.length}
-            totalWorkouts={workouts.length}
-            lastWorkoutDate={lastWorkoutDate}
-            appData={
-              appData || { exercises: [], workouts: [], completedWorkouts: [] }
-            }
-            setAppData={setAppData}
-          />
-        )}
-        {selectedView === 'exercises' && (
-          <ExerciseList
-            exercises={exercises}
-            addExercise={addExercise}
-            updateExercise={updateExercise}
-            deleteExercise={deleteExercise}
-          />
-        )}
-        {selectedView === 'workouts' && (
-          <WorkoutList
-            workouts={workouts}
-            addWorkout={addWorkout}
-            updateWorkout={updateWorkout}
-            deleteWorkout={deleteWorkout}
-            startWorkout={handleStartWorkout}
-            addExerciseToWorkout={addExerciseToWorkout}
-            globalExercises={exercises}
-            deleteExerciseFromWorkout={deleteExerciseFromWorkout}
-          />
-        )}
-        {selectedView === 'current' && (
-          <CurrentWorkoutView
-            currentWorkout={currentWorkout}
-            toggleSetCompletion={toggleSetCompletion}
-            finishWorkout={handleFinishCurrentWorkout}
-            updateSet={updateSet}
-            addSets={addSets}
-            deleteSet={deleteSet}
-          />
-        )}
+        <Container maxWidth="md" style={{ padding: '20px' }}>
+          {selectedView === 'home' && (
+            <HomeView
+              totalExercises={exercises.length}
+              totalWorkouts={workouts.length}
+              lastWorkoutDate={lastWorkoutDate}
+              appData={
+                appData || {
+                  exercises: [],
+                  workouts: [],
+                  completedWorkouts: [],
+                }
+              }
+              setAppData={setAppData}
+            />
+          )}
+          {selectedView === 'exercises' && (
+            <ExerciseList
+              exercises={exercises}
+              addExercise={addExercise}
+              updateExercise={updateExercise}
+              deleteExercise={deleteExercise}
+            />
+          )}
+          {selectedView === 'workouts' && (
+            <WorkoutList
+              workouts={workouts}
+              addWorkout={addWorkout}
+              updateWorkout={updateWorkout}
+              deleteWorkout={deleteWorkout}
+              startWorkout={handleStartWorkout}
+              addExerciseToWorkout={addExerciseToWorkout}
+              globalExercises={exercises}
+              deleteExerciseFromWorkout={deleteExerciseFromWorkout}
+            />
+          )}
+          {selectedView === 'current' && (
+            <CurrentWorkoutView
+              currentWorkout={currentWorkout}
+              toggleSetCompletion={toggleSetCompletion}
+              finishWorkout={handleFinishCurrentWorkout}
+              updateSet={updateSet}
+              addSets={addSets}
+              deleteSet={deleteSet}
+            />
+          )}
 
-        {selectedView === 'history' && (
-          <HistoryView completedWorkouts={completedWorkouts} />
-        )}
-      </Container>
-    </ThemeProvider>
+          {selectedView === 'history' && (
+            <HistoryView completedWorkouts={completedWorkouts} />
+          )}
+        </Container>
+      </ThemeProvider>
+    </LocalizationProvider>
   );
 };
 

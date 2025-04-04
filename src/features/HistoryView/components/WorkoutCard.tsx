@@ -83,8 +83,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout }) => {
             mt={1}
           >
             <Typography variant="caption">
-              {t('total_exercises')}:{' '}
-              <strong>{workout.exercises.length}</strong>
+              {t('total_exercises')}:<strong>{workout.exercises.length}</strong>
             </Typography>
             <Typography variant="caption">
               {t('total_sets')}: <strong>{getTotalSets()}</strong>
