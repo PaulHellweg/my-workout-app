@@ -1,7 +1,7 @@
 import React from 'react';
 import { Paper, Typography, List } from '@mui/material';
-import { CompletedWorkout } from '../types';
-import WorkoutCard from './WorkoutCard';
+import { CompletedWorkout } from '../../types';
+import WorkoutCard from './components/WorkoutCard';
 import { t } from 'i18next';
 
 interface HistoryViewProps {

@@ -17,11 +17,11 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ExerciseList from './components/ExerciseList';
-import WorkoutList from './components/WorkoutList';
-import CurrentWorkoutView from './components/CurrentWorkoutView';
-import HistoryView from './components/HistoryView';
-import HomeView from './components/HomeView';
+import ExerciseList from './features/ExerciseList/ExerciseList';
+import WorkoutList from './features/WorkoutList/WorkoutList';
+import CurrentWorkoutView from './features/CurrentWorkout/CurrentWorkoutView';
+import HistoryView from './features/HistoryView/HistoryView';
+import HomeView from './features/HomeView';
 import { useExerciseManager } from './hooks/useExerciseManager';
 import { useWorkoutManager } from './hooks/useWorkoutManager';
 import { useCurrentWorkout } from './hooks/useCurrentWorkout';

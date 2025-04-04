@@ -8,7 +8,7 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-import { Exercise } from '../types';
+import { Exercise } from '../../../types';
 import { t } from 'i18next';
 
 interface AddExerciseToWorkoutFormProps {

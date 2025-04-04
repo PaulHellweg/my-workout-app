@@ -39,6 +39,7 @@ const HomeView: React.FC<HomeViewProps> = ({
         const importedData = await importAppData(file);
         if (importedData) {
           saveAppData(importedData);
+          setAppData(importedData);
         }
       } catch (error) {
         console.error('Import failed:', error);
@@ -49,7 +50,7 @@ const HomeView: React.FC<HomeViewProps> = ({
   const handleClearData = async () => {
     try {
       await clearAppData();
-      setAppData({ exercises: [], workouts: [], completedWorkouts: [] }); // Reset the appData state
+      setAppData({ exercises: [], workouts: [], completedWorkouts: [] });
     } catch (error) {
       console.error('Error clearing data:', error);
     }

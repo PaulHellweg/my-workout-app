@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Exercise } from '../types';
+import { Exercise } from '../../types';
 import { Box, Typography, TextField, Button, IconButton } from '@mui/material';
 import { Edit, Delete, Save, Cancel } from '@mui/icons-material';
 import { t } from 'i18next';

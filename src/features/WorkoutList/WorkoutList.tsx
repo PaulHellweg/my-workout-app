@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Workout, Exercise } from '../types';
+import { Workout, Exercise } from '../../types';
 import {
   Box,
   Typography,
@@ -9,7 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 import { Edit, Delete, Save, Cancel } from '@mui/icons-material';
-import AddExerciseToWorkoutForm from './AddExerciseToWorkoutForm';
+import AddExerciseToWorkoutForm from './components/AddExerciseToWorkoutForm';
 import { t } from 'i18next';
 
 interface WorkoutListProps {

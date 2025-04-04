@@ -7,7 +7,7 @@ import {
   Typography,
   Stack,
 } from '@mui/material';
-import { CompletedWorkout } from '../types';
+import { CompletedWorkout } from '../../../types';
 import WorkoutExerciseItem from './WorkoutExerciseItem';
 import { t } from 'i18next';
 

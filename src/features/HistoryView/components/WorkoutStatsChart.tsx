@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from 'recharts';
-import { CompletedWorkout } from '../types';
+import { CompletedWorkout } from '../../../types';
 import { t } from 'i18next';
 
 interface WorkoutStatsChartProps {
