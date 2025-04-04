@@ -11,14 +11,14 @@ import {
   OutlinedInput,
   Checkbox,
   ListItemText,
-  Grid, // For layout
+  Grid,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CompletedWorkout } from '../../types';
 import WorkoutCard from './components/WorkoutCard';
 import { t } from 'i18next';
 import WorkoutTrendChart from './components/WorkoutTrendChart';
+import { DatePicker } from '@mui/x-date-pickers';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

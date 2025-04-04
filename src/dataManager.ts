@@ -1,16 +1,10 @@
-import {
-  Filesystem,
-  Directory,
-  Encoding,
-  FilesystemPlugin,
-} from '@capacitor/filesystem';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { AppData } from './types';
 
 const DATA_FILE = 'appData.json';
 
 export async function saveAppData(data: AppData): Promise<void> {
   try {
-    console.log('Saving app data...', data);
     const jsonData = JSON.stringify(data, null, 2);
     await Filesystem.writeFile({
       path: DATA_FILE,
@@ -18,7 +12,6 @@ export async function saveAppData(data: AppData): Promise<void> {
       directory: Directory.Data,
       encoding: Encoding.UTF8,
     });
-    console.log('App data saved successfully.');
   } catch (error) {
     console.error(
       'Error saving app data: ',
@@ -35,8 +28,6 @@ export async function loadAppData(): Promise<AppData | null> {
       encoding: Encoding.UTF8,
     });
     const data: AppData = JSON.parse(result.data as string);
-
-    console.log('App data loaded successfully.', data);
     return data;
   } catch (error) {
     if (
@@ -68,8 +59,7 @@ export function exportAppData(
     element.setAttribute('download', filename);
     document.body.appendChild(element);
     element.click();
-    document.body.removeChild(element); // Clean up the element
-    console.log('App data exported successfully.');
+    document.body.removeChild(element);
   } catch (error) {
     console.error(
       'Error exporting app data: ',
@@ -119,7 +109,6 @@ export async function clearAppData(): Promise<void> {
       workouts: [],
       completedWorkouts: [],
     });
-    console.log('App data cleared successfully.');
   } catch (error) {
     console.error(
       'Error clearing app data: ',

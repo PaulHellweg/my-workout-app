@@ -1,4 +1,6 @@
 {
+  "data_management": "Data Management",
+  "workout_calendar": "Workout Calendar",
   "filtered_workout_list": "Filtered Workout List",
   "filter_by_exercise_optional": "Filter by exercise (optional)",
   "start_date": "Start Date",
