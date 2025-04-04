@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper, Typography, Button, Input } from '@mui/material';
+import { Box, Paper, Typography, Button, Input, Grid } from '@mui/material';
 import { t } from 'i18next';
 import {
   clearAppData,
@@ -78,31 +78,27 @@ const HomeView: React.FC<HomeViewProps> = ({
           </Typography>
         )}
       </Paper>
-      <Box mt={2}>
-        <Button variant="contained" color="primary" onClick={handleExport}>
-          {t('export_data') || 'Export Data'}
-        </Button>
-        <Input
-          type="file"
-          inputProps={{ accept: '.json' }}
-          onChange={handleImport}
-          id="import-file"
-          style={{ display: 'none' }}
-        />
-        <label htmlFor="import-file">
-          <Button variant="contained" color="secondary" component="span">
-            {t('import_data') || 'Import Data'}
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <Button variant="contained" color="primary" onClick={handleExport}>
+            {t('export_data') || 'Export Data'}
           </Button>
-        </label>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={handleClearData}
-          style={{ marginLeft: '10px' }}
-        >
-          {t('clear_data') || 'Clear Data'}
-        </Button>
-      </Box>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Input
+            type="file"
+            inputProps={{ accept: '.json' }}
+            onChange={handleImport}
+            id="import-file"
+            style={{ display: 'none' }}
+          />
+          <label htmlFor="import-file">
+            <Button variant="contained" color="secondary" component="span">
+              {t('import_data') || 'Import Data'}
+            </Button>
+          </label>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
