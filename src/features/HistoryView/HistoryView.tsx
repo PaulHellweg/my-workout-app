@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'; // Added useEffect
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Paper,
   Typography,
@@ -14,7 +14,7 @@ import {
   Grid, // For layout
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'; // Import DatePicker
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CompletedWorkout } from '../../types';
 import WorkoutCard from './components/WorkoutCard';
 import { t } from 'i18next';
@@ -37,11 +37,9 @@ interface HistoryViewProps {
 
 const HistoryView: React.FC<HistoryViewProps> = ({ completedWorkouts }) => {
   const [selectedExercises, setSelectedExercises] = useState<string[]>([]);
-  // State for date filtering
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  // Filter workouts based on date range
   const filteredWorkouts = useMemo(() => {
     if (!completedWorkouts) return [];
     return completedWorkouts.filter((workout) => {
@@ -51,14 +49,14 @@ const HistoryView: React.FC<HistoryViewProps> = ({ completedWorkouts }) => {
       let startCheck = true;
       if (startDate) {
         const filterStartDate = new Date(startDate);
-        filterStartDate.setHours(0, 0, 0, 0); // Start of the selected day
+        filterStartDate.setHours(0, 0, 0, 0);
         startCheck = completedDate >= filterStartDate;
       }
 
       let endCheck = true;
       if (endDate) {
         const filterEndDate = new Date(endDate);
-        filterEndDate.setHours(23, 59, 59, 999); // End of the selected day
+        filterEndDate.setHours(23, 59, 59, 999);
         endCheck = completedDate <= filterEndDate;
       }
 
@@ -66,11 +64,9 @@ const HistoryView: React.FC<HistoryViewProps> = ({ completedWorkouts }) => {
     });
   }, [completedWorkouts, startDate, endDate]);
 
-  // Calculate unique exercises based on the *filtered* list
   const uniqueExerciseNames = useMemo(() => {
     const names = new Set<string>();
     filteredWorkouts?.forEach((workout) => {
-      // Use filteredWorkouts
       workout?.exercises?.forEach((exercise) => {
         if (exercise?.name) {
           names.add(exercise.name);
@@ -78,12 +74,11 @@ const HistoryView: React.FC<HistoryViewProps> = ({ completedWorkouts }) => {
       });
     });
     return Array.from(names).sort();
-  }, [filteredWorkouts]); // Depend on filteredWorkouts
+  }, [filteredWorkouts]);
 
-  // Reset exercise selection when the date range (and thus filtered results) changes
   useEffect(() => {
     setSelectedExercises([]);
-  }, [startDate, endDate]); // Reset when dates change
+  }, [startDate, endDate]);
 
   const handleExerciseChange = (event: SelectChangeEvent<string[]>) => {
     const {
@@ -101,7 +96,6 @@ const HistoryView: React.FC<HistoryViewProps> = ({ completedWorkouts }) => {
         {t('history')}
       </Typography>
 
-      {/* --- Filter Controls --- */}
       <Box
         sx={{
           marginBottom: 3,
