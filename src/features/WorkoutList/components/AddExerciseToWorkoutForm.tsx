@@ -14,9 +14,10 @@ import { t } from 'i18next';
 interface AddExerciseToWorkoutFormProps {
   exercises: Exercise[];
   onAdd: (
-    selectedExerciseId: string,
-    repetitions: number,
-    weight: number
+    selectedExerciseId: string | null,
+    repetitions: number | null,
+    weight: number | null,
+    sets: number | null
   ) => void;
 }
 
@@ -25,15 +26,16 @@ const AddExerciseToWorkoutForm: React.FC<AddExerciseToWorkoutFormProps> = ({
   onAdd,
 }) => {
   const [selectedExerciseId, setSelectedExerciseId] = useState('');
-  const [repetitions, setRepetitions] = useState<number>(0);
-  const [weight, setWeight] = useState<number>(0);
+  const [repetitions, setRepetitions] = useState<number | null>(null);
+  const [sets, setSets] = useState<number | null>(null);
+  const [weight, setWeight] = useState<number | null>(null);
 
   const handleSubmit = () => {
     if (!selectedExerciseId) return;
-    onAdd(selectedExerciseId, repetitions, weight);
+    onAdd(selectedExerciseId, repetitions, weight, sets);
     setSelectedExerciseId('');
-    setRepetitions(0);
-    setWeight(0);
+    setRepetitions(null);
+    setWeight(null);
   };
 
   return (
@@ -57,9 +59,18 @@ const AddExerciseToWorkoutForm: React.FC<AddExerciseToWorkoutFormProps> = ({
         </Select>
       </FormControl>
       <TextField
+        label={t('sets') || 'Sets'}
+        type="number"
+        value={sets || ''}
+        onChange={(e) => setSets(parseInt(e.target.value) || 0)}
+        fullWidth
+        margin="normal"
+        size="small"
+      />
+      <TextField
         label={t('repetitions') || 'Wiederholungen'}
         type="number"
-        value={repetitions}
+        value={repetitions || ''}
         onChange={(e) => setRepetitions(parseInt(e.target.value) || 0)}
         fullWidth
         margin="normal"
@@ -68,7 +79,7 @@ const AddExerciseToWorkoutForm: React.FC<AddExerciseToWorkoutFormProps> = ({
       <TextField
         label={t('weight') || 'Gewicht'}
         type="number"
-        value={weight}
+        value={weight || ''}
         onChange={(e) => setWeight(parseFloat(e.target.value) || 0)}
         fullWidth
         margin="normal"

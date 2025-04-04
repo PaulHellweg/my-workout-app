@@ -19,10 +19,11 @@ interface WorkoutListProps {
   deleteWorkout: (workoutId: string) => Promise<void>;
   startWorkout: (workout: Workout) => void;
   addExerciseToWorkout: (
-    workoutId: string,
+    workoutId: string | null,
     workoutExercise: Exercise,
-    reps: number,
-    weight: number
+    reps: number | null,
+    sets: number | null,
+    weight: number | null
   ) => Promise<void>;
   deleteExerciseFromWorkout: (
     workoutId: string,
@@ -145,7 +146,7 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
           <Box marginTop={2}>
             <AddExerciseToWorkoutForm
               exercises={globalExercises}
-              onAdd={(selectedExerciseId, reps, weight) => {
+              onAdd={(selectedExerciseId, reps, weight, sets) => {
                 const selectedExercise = globalExercises.find(
                   (ex) => ex.id === selectedExerciseId
                 );
@@ -153,6 +154,7 @@ const WorkoutList: React.FC<WorkoutListProps> = ({
                 return addExerciseToWorkout(
                   workout.id,
                   selectedExercise,
+                  sets,
                   reps,
                   weight
                 );

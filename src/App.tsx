@@ -147,10 +147,10 @@ const App: React.FC = () => {
           <Box sx={{ width: 250 }} role="presentation">
             <List>
               <ListItem>
-                <ListItemText primary={t('menu') || 'Menu'} />
+                <ListItemText primary={t('home_title') || 'Menu'} />
               </ListItem>
               <ListItemButton onClick={() => handleMenuItemClick('home')}>
-                <ListItemText primary={t('home') || 'Home'} />
+                <ListItemText primary={t('home_title') || 'Home'} />
               </ListItemButton>
               <ListItemButton onClick={() => handleMenuItemClick('exercises')}>
                 <ListItemText primary={t('exercises') || 'Exercises'} />

@@ -52,10 +52,11 @@ export const useWorkoutManager = (exercises: Exercise[]) => {
   };
 
   const addExerciseToWorkout = async (
-    workoutId: string,
+    workoutId: string | null,
     workoutExercise: Exercise,
-    reps: number,
-    weight: number
+    sets: number | null,
+    reps: number | null,
+    weight: number | null
   ) => {
     const updatedWorkouts = workouts.map((w) =>
       w.id === workoutId
@@ -66,9 +67,9 @@ export const useWorkoutManager = (exercises: Exercise[]) => {
               {
                 exerciseId: workoutExercise.id,
                 name: workoutExercise.name,
-                sets: Array.from({ length: reps }, () => ({
-                  repetitions: 0,
-                  weight: 0,
+                sets: Array.from({ length: sets ?? 0 }, () => ({
+                  repetitions: reps ?? 0,
+                  weight: weight ?? 0,
                   completed: false,
                 })),
               },
